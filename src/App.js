@@ -4,13 +4,21 @@ import Pedido from './entidades/Pedido';
 import StatusPedido from './entidades/StatusPedido';
 import Cardapio from './componentes/Cardapio';
 import CarrinhoDeCompras from './componentes/CarrinhoDeCompras';
-import { ajax } from 'rxjs/ajax';
-import { map } from 'rxjs/operators';
-import socketIOClient from "socket.io-client";
+import ProdutosService from './servicos/ProdutosService';
+import NotificacoesService from './servicos/NotificacoesService';
 
 function App() {
   const [produtos, setProdutos] = useState([]);
   const [pedidos, setPedidos] = useState([]);
+
+
+  // quando o componente for carregado
+  useEffect(() => {
+    ProdutosService.carregarProdutos().then(setProdutos);
+  }, []);
+
+  // quando chegar notificações da cozinha
+  NotificacoesService.onNotificacao(() => progrideStatus());
 
   const pedir = (produto) => {
     // converte produto em pedido - define o status do pedido como 'na fila'
@@ -22,23 +30,8 @@ function App() {
     setPedidos([...pedidos.slice(0, indice), ...pedidos.slice(indice + 1)]);
   };
 
-  useEffect(() => {
-    ajax('http://localhost:5000/produtos').pipe(
-      map(ajaxResponse => ajaxResponse.response)
-    ).subscribe(produtosDoBackend => setProdutos(produtosDoBackend));
-  }, []);
-
-  useEffect(() => {
-    const socket = socketIOClient('http://localhost:5000');
-    socket.on('cozinha', msg => {
-      progrideStatus();
-    });
-  }, []);
-
   // Gambiarra para simular o funcionamento do restaurante
   const progrideStatus = () => {
-    console.log('pedidos antes');
-    console.log(pedidos);
     let novosPedidos = [...pedidos];
     novosPedidos.forEach(p => {
       if (p.status === StatusPedido.NA_FILA) {
@@ -49,14 +42,11 @@ function App() {
         p.status = StatusPedido.ENTREGUE;
       }  
     });
-    console.log('novos pedidos');
-    console.log(novosPedidos);
     setPedidos(novosPedidos);
   };
 
   return (
     <>
-      <button onClick={progrideStatus}>Progride o Status</button>
       <CarrinhoDeCompras pedidos={pedidos} onCancelar={cancelarPedido}/>
       <Cardapio produtos={produtos} onPedir={pedir}/>
     </>

@@ -1,0 +1,26 @@
+version: '3.6'  
+services:
+  restaurante_frontend:
+    image: brunocatao/rest-front
+    depends_on:
+      - restaurante_backend
+    environment:
+      - REACT_APP_URL_BACKEND=http://restaurante_backend:5000/produtos
+      - REACT_APP_URL_SOCKET_IO=http://restaurante_backend:5000
+    ports:
+      - "3000:80"
+  restaurante_backend:
+    image: brunocatao/rest-back
+    depends_on:
+      - banco_de_dados
+    environment:
+      - DATABASE_URL=mongodb://banco_de_dados/restaurante
+      - SERVER_PORT=5000
+    ports:
+      - "5000:5000"
+  banco_de_dados:
+    image: mongo
+    volumes:
+      - mongo_data:/data/db
+volumes:  
+  mongo_data:

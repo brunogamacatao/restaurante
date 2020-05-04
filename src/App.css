@@ -15,7 +15,7 @@ body * {
 	text-transform: uppercase;
 }
 
-.header span {
+.header .seta {
 	float: right;
 }
 

@@ -14,14 +14,14 @@ function CarrinhoDeCompras({pedidos, onCancelar}) {
   const renderPedido = (pedido, indice) => {
     return (
       <tr key={"pedido_" + indice}>
-        <td><img src={pedido.foto}/></td>
+        <td><img src={pedido.foto} alt="Foto do pedido"/></td>
         <td>{pedido.nome}</td>
         <td>{pedido.tipo}</td>
         <td>R$ {pedido.valor.toFixed(2)}</td>
         <td>{pedido.status}</td>
         <td>
           { pedido.status === StatusPedido.NA_FILA ?  (
-            <a href="#" class="myButton" onClick={() => onCancelar(indice)}>Cancelar</a>
+            <button className="myButton" onClick={() => onCancelar(indice)}>Cancelar</button>
           ) : (
             <span>-</span>
           )}
@@ -37,8 +37,8 @@ function CarrinhoDeCompras({pedidos, onCancelar}) {
   return (
     <div className="table-cardapio">
       <div className="header" onClick={() => toggleEscondido()}>
-        Pedidos - 💰 R$ {calculaTotal().toFixed(2)}
-        <span>
+        Pedidos - <span role="img" aria-label="saco de dinheiro">💰</span> R$ {calculaTotal().toFixed(2)}
+        <span className="seta">
           {escondido ? "🡣" : "🡡"}
         </span>
       </div>
