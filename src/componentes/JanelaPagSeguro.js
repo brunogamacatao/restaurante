@@ -1,16 +1,19 @@
 import React, {useContext} from 'react';
-import Iframe from 'react-iframe';
 import LojaContext from '../contextos/LojaContext';
 import '../App.css';
 
+const URL_CHECKOUT = process.env.REACT_APP_URL_CHECKOUT_PAGSEGURO;
+
 function JanelaPagSeguro() {
-  const {mostraPagSeguro, codigoCheckout} = useContext(LojaContext);
+  const {pagSeguro} = useContext(LojaContext);
 
   return (
-    <div className={mostraPagSeguro ? "overlay-bg" : "escondido"}>
-      <Iframe url={codigoCheckout ? ("https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=" + codigoCheckout) : ""}
-        className="overlay">
-      </Iframe>
+    <div className={pagSeguro.mostra ? "overlay-bg" : "escondido"}>
+      <iframe 
+        title="Checkout PagSeguro"
+        src={pagSeguro.codigoCheckout ? (URL_CHECKOUT + pagSeguro.codigoCheckout) : ""}
+        className="overlay loading">
+      </iframe>
     </div>
   );
 }

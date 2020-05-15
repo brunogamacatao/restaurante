@@ -43,9 +43,18 @@ export const LojaProvider = ({children}) => {
 
   return (
     <LojaContext.Provider value={{
-      produtos, pedidos, pedir, cancelarPedido, finalizarCompra,
-      mostraOverlay, setMostraOverlay, textoOverlay, setTextoOverlay,
-      mostraPagSeguro, setMostraPagSeguro, codigoCheckout, setCodigoCheckout
+      loja: { produtos, pedidos, pedir, cancelarPedido, finalizarCompra},
+      overlay: {
+        mostra: mostraOverlay, 
+        setMostra: setMostraOverlay, 
+        texto: textoOverlay, 
+        setTexto: setTextoOverlay
+      },
+      pagSeguro: {
+        mostra: mostraPagSeguro, 
+        setMostra: setMostraPagSeguro, 
+        codigoCheckout, setCodigoCheckout
+      }
     }}>
       {children}
     </LojaContext.Provider>

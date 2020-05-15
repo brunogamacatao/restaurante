@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const URL_BACKEND = 'http://localhost:5000/pedidos';
+const URL_BACKEND = process.env.REACT_APP_PEDIDOS_BACKEND;
 
 const finalizarPedido = async (pedidos) => {
   const idsDosPedidos = pedidos.map(p => p.id);

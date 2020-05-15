@@ -3,13 +3,13 @@ import LojaContext from '../contextos/LojaContext';
 import '../App.css';
 
 function Overlay() {
-  const {mostraOverlay, textoOverlay} = useContext(LojaContext);
+  const {overlay} = useContext(LojaContext);
 
   return (
-    <div className={mostraOverlay ? "overlay-bg" : "escondido"}>
+    <div className={overlay.mostra ? "overlay-bg" : "escondido"}>
       <div className="overlay">
         <div className="centralizado">
-          <h1>{textoOverlay}</h1>
+          <h1>{overlay.texto}</h1>
         </div>
       </div>
     </div>

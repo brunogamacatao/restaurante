@@ -3,7 +3,7 @@ import '../App.css';
 import LojaContext from '../contextos/LojaContext';
 
 function Cardapio() {
-  const {produtos, pedir} = useContext(LojaContext);
+  const {loja} = useContext(LojaContext);
 
   const renderProduto = (produto) => {
     return (
@@ -12,7 +12,7 @@ function Cardapio() {
         <td>{produto.nome}</td>
         <td>{produto.tipo}</td>
         <td>R$ {produto.valor.toFixed(2)}</td>
-        <td><button className="myButton" onClick={() => pedir(produto)}>Pedir</button></td>
+        <td><button className="myButton" onClick={() => loja.pedir(produto)}>Pedir</button></td>
       </tr>
     );
   };
@@ -31,7 +31,7 @@ function Cardapio() {
           </tr>
         </thead>
         <tbody>
-          {produtos.map(renderProduto)}
+          {loja.produtos.map(renderProduto)}
         </tbody>
       </table>
     </div>

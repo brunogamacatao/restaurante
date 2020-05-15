@@ -7,14 +7,11 @@ import LojaContext from '../contextos/LojaContext';
 
 function CarrinhoDeCompras() {
   const [escondido, setEscondido] = useState(true);
-
-  const {pedidos, cancelarPedido, finalizarCompra} = useContext(LojaContext);
-  const {setMostraOverlay, setTextoOverlay} = useContext(LojaContext);
-  const {setMostraPagSeguro, setCodigoCheckout} = useContext(LojaContext);
+  const {loja, overlay, pagSeguro} = useContext(LojaContext);
 
   const calculaTotal = () => {
     let total = 0.0;
-    pedidos.forEach(p => total += p.valor);
+    loja.pedidos.forEach(p => total += p.valor);
     return total;
   };
 
@@ -28,7 +25,7 @@ function CarrinhoDeCompras() {
         <td>{pedido.status}</td>
         <td>
           { pedido.status === StatusPedido.NA_FILA ?  (
-            <button className="myButton" onClick={() => cancelarPedido(indice)}>
+            <button className="myButton" onClick={() => loja.cancelarPedido(indice)}>
               Cancelar
             </button>
           ) : (
@@ -44,8 +41,8 @@ function CarrinhoDeCompras() {
   };
 
   const exibeMensagem = (texto) => {
-    setTextoOverlay(texto);
-    setMostraOverlay(true);
+    overlay.setTexto(texto);
+    overlay.setMostra(true);
   };
 
   return (
@@ -73,16 +70,16 @@ function CarrinhoDeCompras() {
             </tr>
           </thead>
           <tbody>
-            {pedidos.map(renderPedido)}
+            {loja.pedidos.map(renderPedido)}
           </tbody>
         </table>
         <div className={escondido ? "escondido" : "centro"}>
           <button className="myButton" onClick={() => {
             exibeMensagem("Processando o pagamento ...");
-            finalizarCompra().then(dados => {
-              setCodigoCheckout(dados.checkout.code);
-              setMostraOverlay(false);
-              setMostraPagSeguro(true);
+            loja.finalizarCompra().then(dados => {
+              overlay.setMostra(false);
+              pagSeguro.setCodigoCheckout(dados.checkout.code);
+              pagSeguro.setMostra(true);
             });
           }}>
             FINALIZAR COMPRA
