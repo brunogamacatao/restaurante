@@ -1,7 +1,7 @@
 version: '3.6'  
 services:
   restaurante_frontend:
-    image: brunocatao/rest-front
+    image: brunogamacatao/restaurante-frontend
     depends_on:
       - restaurante_backend
     environment:
@@ -10,7 +10,7 @@ services:
     ports:
       - "3000:80"
   restaurante_backend:
-    image: brunocatao/rest-back
+    image: brunogamacatao/restaurante-backend
     depends_on:
       - banco_de_dados
     environment:

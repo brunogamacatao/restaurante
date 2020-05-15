@@ -9,7 +9,6 @@ const carregarProdutos = () => {
     ajax(URL_BACKEND).pipe(
       map(ajaxResponse => ajaxResponse.response)
     ).subscribe(produtos => {
-      console.log('service - produtos', produtos);
       resolve(produtos);
     });
   });

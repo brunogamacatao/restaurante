@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import '../App.css';
+import LojaContext from '../contextos/LojaContext';
 
-function Cardapio({produtos, onPedir}) {
+function Cardapio() {
+  const {produtos, pedir} = useContext(LojaContext);
+
   const renderProduto = (produto) => {
     return (
       <tr key={"produto_" + produto._id}>
@@ -9,7 +12,7 @@ function Cardapio({produtos, onPedir}) {
         <td>{produto.nome}</td>
         <td>{produto.tipo}</td>
         <td>R$ {produto.valor.toFixed(2)}</td>
-        <td><button className="myButton" onClick={() => onPedir(produto)}>Pedir</button></td>
+        <td><button className="myButton" onClick={() => pedir(produto)}>Pedir</button></td>
       </tr>
     );
   };
