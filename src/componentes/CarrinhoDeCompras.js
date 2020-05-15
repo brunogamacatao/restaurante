@@ -1,16 +1,16 @@
 import React, {useState, useContext} from 'react';
-import Iframe from 'react-iframe';
 import '../App.css';
+import Overlay from '../componentes/Overlay';
+import JanelaPagSeguro from '../componentes/JanelaPagSeguro';
 import StatusPedido from '../entidades/StatusPedido';
 import LojaContext from '../contextos/LojaContext';
 
 function CarrinhoDeCompras() {
   const [escondido, setEscondido] = useState(true);
-  const [mostraOverlay, setMostraOverlay] = useState(false);
-  const [mostraPagSeguro, setMostraPagSeguro] = useState(false);
-  const [textoOverlay, setTextoOverlay] = useState('');
+
   const {pedidos, cancelarPedido, finalizarCompra} = useContext(LojaContext);
-  const [codigoCheckout, setCodigoCheckout] = useState(null);
+  const {setMostraOverlay, setTextoOverlay} = useContext(LojaContext);
+  const {setMostraPagSeguro, setCodigoCheckout} = useContext(LojaContext);
 
   const calculaTotal = () => {
     let total = 0.0;
@@ -48,31 +48,10 @@ function CarrinhoDeCompras() {
     setMostraOverlay(true);
   };
 
-  const overlay = () => {
-    return (
-      <div className={mostraOverlay ? "overlay-bg" : "escondido"}>
-        <div className="overlay">
-          <div className="centralizado">
-            <h1>{textoOverlay}</h1>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const janelaPagSeguro = () => {
-    return (
-      <div className={mostraPagSeguro ? "overlay-bg" : "escondido"}>
-        <Iframe url={"https://sandbox.pagseguro.uol.com.br/v2/checkout/payment.html?code=" + codigoCheckout}
-          className="overlay"/>
-      </div>
-    );
-  };
-
   return (
     <>
-      {janelaPagSeguro()}
-      {overlay()}
+      <JanelaPagSeguro/>
+      <Overlay/>
       <div className="table-cardapio">
         <div className="header" onClick={() => toggleEscondido()}>
           Pedidos -&nbsp;

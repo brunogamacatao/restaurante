@@ -10,6 +10,11 @@ export const LojaProvider = ({children}) => {
   const [produtos, setProdutos] = useState([]);
   const [pedidos, setPedidos] = useState([]);
 
+  const [mostraOverlay, setMostraOverlay] = useState(false);
+  const [textoOverlay, setTextoOverlay] = useState('');
+  const [mostraPagSeguro, setMostraPagSeguro] = useState(false);
+  const [codigoCheckout, setCodigoCheckout] = useState(null);
+
   // quando o componente for carregado
   useEffect(() => {
     ProdutosService.carregarProdutos().then(setProdutos);
@@ -38,7 +43,9 @@ export const LojaProvider = ({children}) => {
 
   return (
     <LojaContext.Provider value={{
-      produtos, pedidos, pedir, cancelarPedido, finalizarCompra
+      produtos, pedidos, pedir, cancelarPedido, finalizarCompra,
+      mostraOverlay, setMostraOverlay, textoOverlay, setTextoOverlay,
+      mostraPagSeguro, setMostraPagSeguro, codigoCheckout, setCodigoCheckout
     }}>
       {children}
     </LojaContext.Provider>
